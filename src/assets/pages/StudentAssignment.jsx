@@ -21,7 +21,7 @@ const StudentAssignment = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center bg-gray-100 p-4 lg:ml-[16.66%]">
+    <div className="flex flex-col items-center justify-center p-4 lg:ml-[16.66%]">
       {/* Assignment Header */}
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-3xl">
         <h1 className="text-2xl font-bold text-blue-600">Student Assignment</h1>

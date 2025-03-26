@@ -22,7 +22,7 @@ function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center lg:ml-[16.66%] bg-gray-200">
+    <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <div className="w-[400px] h-[450px] bg-white p-8 rounded-xl shadow-lg border border-gray-300 flex flex-col justify-center">
         <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">Signup</h2>
         <form onSubmit={handleSignup} className="space-y-6">
