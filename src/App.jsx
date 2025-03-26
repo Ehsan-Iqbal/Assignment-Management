@@ -8,6 +8,8 @@ import Layout from "./assets/pages/Layout";
 import Result from "./assets/pages/result";
 import Leave from "./assets/pages/leave";
 import Feedback from "./assets/pages/feedback";
+import StudentAssignment from "./assets/pages/StudentAssignment";
+import TeacherAssignment from "./assets/pages/TeacherAssignment";
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Route path="result" element={<Result />} />
         <Route path="leave" element={<Leave />} />
         <Route path="feedback" element={<Feedback />} />
+        <Route path="student-assignment" element={<StudentAssignment />} />
+        <Route path="teacher-assignment" element={<TeacherAssignment />} />
       </Route>
       <Route path="*" element={<Signup />} />
     </Routes>
