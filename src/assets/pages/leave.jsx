@@ -24,9 +24,13 @@ const LeaveApplication = () => {
     e.preventDefault();
 
     // Save data to local storage
-    let savedApplications = JSON.parse(localStorage.getItem("leaveApplications")) || [];
+    let savedApplications =
+      JSON.parse(localStorage.getItem("leaveApplications")) || [];
     savedApplications.push(formData);
-    localStorage.setItem("leaveApplications", JSON.stringify(savedApplications));
+    localStorage.setItem(
+      "leaveApplications",
+      JSON.stringify(savedApplications)
+    );
 
     alert("Leave application submitted successfully!");
 
@@ -45,7 +49,9 @@ const LeaveApplication = () => {
   return (
     <div className="flex items-center justify-center min-h-screen lg:ml-[16.99%] p-4 sm:p-6 bg-gray-100">
       <div className="bg-white p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-lg">
-        <h2 className="text-xl sm:text-2xl font-bold text-center">Leave Application</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-center">
+          Leave Application
+        </h2>
         <p className="text-xs sm:text-sm text-center mb-3 sm:mb-4">
           For leave where an entitlement is due, staff must submit this form.
         </p>
@@ -53,7 +59,9 @@ const LeaveApplication = () => {
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-3 sm:space-y-0">
             <div className="w-full sm:w-1/2">
-              <label className="block text-xs sm:text-sm font-semibold">First Name *</label>
+              <label className="block text-xs sm:text-sm font-semibold">
+                First Name *
+              </label>
               <input
                 type="text"
                 name="firstName"
@@ -66,7 +74,9 @@ const LeaveApplication = () => {
             </div>
 
             <div className="w-full sm:w-1/2">
-              <label className="block text-xs sm:text-sm font-semibold">Last Name *</label>
+              <label className="block text-xs sm:text-sm font-semibold">
+                Last Name *
+              </label>
               <input
                 type="text"
                 name="lastName"
@@ -80,7 +90,9 @@ const LeaveApplication = () => {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-semibold">Type of Leave *</label>
+            <label className="block text-xs sm:text-sm font-semibold">
+              Type of Leave *
+            </label>
             <select
               name="leaveType"
               value={formData.leaveType}
@@ -98,7 +110,9 @@ const LeaveApplication = () => {
 
           <div className="flex flex-col sm:flex-row sm:space-x-2 space-y-3 sm:space-y-0">
             <div className="w-full sm:w-1/2">
-              <label className="block text-xs sm:text-sm font-semibold">Date of Leave *</label>
+              <label className="block text-xs sm:text-sm font-semibold">
+                Date of Leave *
+              </label>
               <input
                 type="date"
                 name="leaveDate"
@@ -110,7 +124,9 @@ const LeaveApplication = () => {
             </div>
 
             <div className="w-full sm:w-1/2">
-              <label className="block text-xs sm:text-sm font-semibold">Date of Return *</label>
+              <label className="block text-xs sm:text-sm font-semibold">
+                Date of Return *
+              </label>
               <input
                 type="date"
                 name="returnDate"
@@ -123,7 +139,9 @@ const LeaveApplication = () => {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-semibold">Upload Relevant Proof</label>
+            <label className="block text-xs sm:text-sm font-semibold">
+              Upload Relevant Proof
+            </label>
             <input
               type="file"
               name="proof"
@@ -134,7 +152,9 @@ const LeaveApplication = () => {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm font-semibold">Signature *</label>
+            <label className="block text-xs sm:text-sm font-semibold">
+              Signature *
+            </label>
             <textarea
               name="signature"
               value={formData.signature}
@@ -146,8 +166,8 @@ const LeaveApplication = () => {
             ></textarea>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded text-sm sm:text-base"
           >
             Submit

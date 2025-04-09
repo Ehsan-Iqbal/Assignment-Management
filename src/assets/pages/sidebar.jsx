@@ -56,27 +56,48 @@ function Sidebar() {
 
           {/* Navigation Links */}
           <nav className="px-4 space-y-4">
-          {[
-  { path: "/home", label: "Home", icon: <MdOutlineDashboard /> },
-  { path: "/attendance", label: "View Attendance", icon: <MdOutlinePreview /> },
-  { path: "/result", label: "View Result", icon: <HiViewBoards /> },
-  { path: "/leave", label: "Apply for Leave", icon: <RiMessageFill /> },
-  { path: "/feedback", label: "Send Feedback", icon: <TbMessageCircleFilled /> },
-  { path: "/teacher-assignment", label: "Teacher Assignment", icon: <GiTeacher /> },
-  { path: "/student-assignment", label: "Student Assignment", icon: <PiStudentFill /> },
-].map((item) => (
-  <a
-    key={item.path}
-    onClick={() => handleNavigation(item.path)}
-    className={`flex items-center text-sm gap-2 px-4 py-1.5 rounded-lg cursor-pointer ${
-      location.pathname === item.path ? "bg-[#82c043]" : "bg-gray-700 hover:bg-gray-800"
-    }`}
-  >
-    <span className="text-white">{item.icon}</span>
-    <span className="text-white">{item.label}</span>
-  </a>
-))}
-
+            {[
+              { path: "/home", label: "Home", icon: <MdOutlineDashboard /> },
+              {
+                path: "/attendance",
+                label: "View Attendance",
+                icon: <MdOutlinePreview />,
+              },
+              { path: "/result", label: "View Result", icon: <HiViewBoards /> },
+              {
+                path: "/leave",
+                label: "Apply for Leave",
+                icon: <RiMessageFill />,
+              },
+              {
+                path: "/feedback",
+                label: "Send Feedback",
+                icon: <TbMessageCircleFilled />,
+              },
+              {
+                path: "/teacher-assignment",
+                label: "Teacher Assignment",
+                icon: <GiTeacher />,
+              },
+              {
+                path: "/student-assignment",
+                label: "Student Assignment",
+                icon: <PiStudentFill />,
+              },
+            ].map((item) => (
+              <a
+                key={item.path}
+                onClick={() => handleNavigation(item.path)}
+                className={`flex items-center text-sm gap-2 px-4 py-1.5 rounded-lg cursor-pointer ${
+                  location.pathname === item.path
+                    ? "bg-[#82c043]"
+                    : "bg-gray-700 hover:bg-gray-800"
+                }`}
+              >
+                <span className="text-white">{item.icon}</span>
+                <span className="text-white">{item.label}</span>
+              </a>
+            ))}
           </nav>
         </div>
 

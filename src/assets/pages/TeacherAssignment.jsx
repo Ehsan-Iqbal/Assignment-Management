@@ -1,141 +1,144 @@
-import React, { useState, useEffect } from "react";
-import { FaPlus, FaRegFileAlt } from "react-icons/fa";
+import React, { useState } from "react";
 
-const AssignmentManager = () => {
-  const [assignments, setAssignments] = useState({
-    Zoology: [],
-  });
-
-  const [showForm, setShowForm] = useState(false);
-  const [newAssignment, setNewAssignment] = useState({
+const TeacherAssignment = () => {
+  const [assignments, setAssignments] = useState([]);
+  const [form, setForm] = useState({
     title: "",
-    dueDate: "",
-    category: "Zoology",
+    description: "",
+    deadline: "",
+    maxMarks: "",
   });
+  const [editingIndex, setEditingIndex] = useState(null);
 
-  const calculateTimeRemaining = (dueDate) => {
-    const due = new Date(dueDate).getTime();
-    const now = new Date().getTime();
-    const diff = due - now;
-
-    if (diff <= 0) return "Expired";
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-    return `${days}d ${hours}h ${minutes}m left`;
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const [timeLeft, setTimeLeft] = useState({});
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft(
-        Object.fromEntries(
-          Object.entries(assignments).map(([category, tasks]) => [
-            category,
-            tasks.map((task) => calculateTimeRemaining(task.dueDate)),
-          ])
-        )
-      );
-    }, 60000);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Form validation
+    if (!form.title || !form.description || !form.deadline || !form.maxMarks) {
+      alert("All fields are required.");
+      return;
+    }
 
-    return () => clearInterval(interval);
-  }, [assignments]);
+    if (editingIndex !== null) {
+      // Edit existing assignment
+      const updatedAssignments = [...assignments];
+      updatedAssignments[editingIndex] = form;
+      setAssignments(updatedAssignments);
+      setEditingIndex(null);
+    } else {
+      // Create new assignment
+      setAssignments([...assignments, form]);
+    }
 
-  const handleAddAssignment = () => {
-    if (!newAssignment.title || !newAssignment.dueDate) return;
-    setAssignments((prev) => ({
-      ...prev,
-      [newAssignment.category]: [
-        ...prev[newAssignment.category],
-        { title: newAssignment.title, dueDate: newAssignment.dueDate },
-      ],
-    }));
-    setShowForm(false);
-    setNewAssignment({ title: "", dueDate: "", category: "Zoology" });
+    setForm({ title: "", description: "", deadline: "", maxMarks: "" }); // Reset form
   };
+
+  const handleEdit = (index) => {
+    setForm(assignments[index]);
+    setEditingIndex(index);
+  };
+
+  const handleDelete = (index) => {
+    setAssignments(assignments.filter((_, i) => i !== index));
+  };
+
+  // const handleNewAssignment = () => {
+  //   setForm({ title: "", description: "", deadline: "", maxMarks: "" }); // Reset form for new assignment
+  //   setEditingIndex(null); // Reset editing state
+  // };
 
   return (
-    <div className="flex flex-col md:flex-row">
-      {/* Sidebar */}
-      <aside className="w-full md:w-60 p-4">
-        <h2 className="text-lg font-bold text-gray-700">Zoology</h2>
-      </aside>
+    <div className="max-w-3xl flex flex-col items-center justify-center p-6 bg-white shadow-md rounded-lg lg:ml-[30.66%]">
+      <h2 className="text-2xl font-bold text-center mb-4">
+        Assignment Management
+      </h2>
+      
+      {/* New Assignment Button */}
+      {/* <button
+        className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition cursor-pointer mb-6"
+        onClick={handleNewAssignment}
+      >
+        New Assignment
+      </button> */}
 
-      {/* Main Content */}
-      <div className="flex-1 p-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Create Assignments</h1>
-          <button
-            onClick={() => setShowForm(true)}
-            className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600"
+      {/* Assignment Form */}
+      <form onSubmit={handleSubmit} className="space-y-4 w-full">
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          value={form.title}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <textarea
+          name="description"
+          placeholder="Description"
+          value={form.description}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        ></textarea>
+        <input
+          type="date"
+          name="deadline"
+          value={form.deadline}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <input
+          type="number"
+          name="maxMarks"
+          placeholder="Maximum Marks"
+          value={form.maxMarks}
+          onChange={handleChange}
+          required
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition cursor-pointer"
+        >
+          {editingIndex !== null ? "Update" : "Create"} Assignment
+        </button>
+      </form>
+
+      {/* Assignments List */}
+      <h3 className="text-xl font-semibold mt-6">Assignments</h3>
+      <ul className="space-y-4 mt-4 w-full">
+        {assignments.map((assignment, index) => (
+          <li
+            key={index}
+            className="p-4 bg-gray-100 rounded flex justify-between items-center"
           >
-            <FaPlus /> Create
-          </button>
-        </div>
-
-        <div className="mt-6">
-          {assignments.Zoology.length === 0 ? (
-            <p className="text-gray-500 mt-2">Assignments ...</p>
-          ) : (
-            assignments.Zoology.map((assignment, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-3 bg-white shadow-md rounded-lg mt-2"
-              >
-                <div className="flex items-center gap-3">
-                  <FaRegFileAlt className="text-blue-500" />
-                  <span>{assignment.title}</span>
-                </div>
-                <div className="text-gray-500 text-sm text-right">
-                  <p>Due: {new Date(assignment.dueDate).toLocaleString()}</p>
-                  <p className="text-red-500 font-semibold">
-                    {timeLeft.Zoology ? timeLeft.Zoology[index] : calculateTimeRemaining(assignment.dueDate)}
-                  </p>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
-      </div>
-
-      {showForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-semibold mb-4">Create Zoology Assignment</h2>
-            <input
-              type="text"
-              placeholder="Title"
-              value={newAssignment.title}
-              onChange={(e) => setNewAssignment({ ...newAssignment, title: e.target.value })}
-              className="w-full p-2 border rounded-md mb-2"
-            />
-            <input
-              type="datetime-local"
-              value={newAssignment.dueDate}
-              onChange={(e) => setNewAssignment({ ...newAssignment, dueDate: e.target.value })}
-              className="w-full p-2 border rounded-md mb-4"
-            />
-            <div className="flex justify-end gap-2">
+            <div>
+              <strong>{assignment.title}</strong> - {assignment.description}{" "}
+              (Due: {assignment.deadline}, Marks: {assignment.maxMarks})
+            </div>
+            <div className="space-x-2">
               <button
-                onClick={() => setShowForm(false)}
-                className="bg-gray-300 px-4 py-2 rounded-md"
+                className="bg-yellow-500 text-white px-3 py-1 rounded cursor-pointer hover:bg-yellow-600 transition"
+                onClick={() => handleEdit(index)}
               >
-                Cancel
+                Edit
               </button>
               <button
-                onClick={handleAddAssignment}
-                className="bg-green-500 text-white px-4 py-2 rounded-md"
+                className="bg-red-500 text-white cursor-pointer px-3 py-1 rounded hover:bg-red-600 transition"
+                onClick={() => handleDelete(index)}
               >
-                Add
+                Delete
               </button>
             </div>
-          </div>
-        </div>
-      )}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default AssignmentManager;
+export default TeacherAssignment;

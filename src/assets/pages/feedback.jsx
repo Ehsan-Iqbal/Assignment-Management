@@ -4,7 +4,6 @@ const FeedbackForm = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    studentId: "",
     grade: "",
     rating: 0,
     suggestions: "",
@@ -35,8 +34,12 @@ const FeedbackForm = () => {
   return (
     <div className="flex justify-center items-center min-h-screen lg:ml-[16.0%] p-4 sm:p-6 bg-gray-900">
       <div className="bg-gray-800 p-4 sm:p-6 rounded-lg shadow-lg w-full max-w-md text-white">
-        <h2 className="text-xl sm:text-2xl font-bold text-center">Student Feedback</h2>
-        <p className="text-xs sm:text-sm text-center mb-3 sm:mb-4">Please rate your experience with the faculty</p>
+        <h2 className="text-xl sm:text-2xl font-bold text-center">
+          Student Feedback
+        </h2>
+        <p classNlocalStorageame="text-xs sm:text-sm text-center mb-3 sm:mb-4">
+          Please rate your experience with the faculty
+        </p>
 
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <div>
@@ -64,19 +67,6 @@ const FeedbackForm = () => {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm">Student ID</label>
-            <input
-              type="text"
-              name="studentId"
-              placeholder="Enter ID"
-              value={formData.studentId}
-              onChange={handleChange}
-              required
-              className="w-full p-2 bg-gray-700 rounded text-xs sm:text-sm"
-            />
-          </div>
-
-          <div>
             <label className="block text-xs sm:text-sm">Grade</label>
             <select
               name="grade"
@@ -95,7 +85,9 @@ const FeedbackForm = () => {
           </div>
 
           <div>
-            <label className="block text-xs sm:text-sm">Rate your overall experience</label>
+            <label className="block text-xs sm:text-sm">
+              Rate your overall experience
+            </label>
             <div className="flex justify-center sm:justify-start space-x-1 sm:space-x-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -103,7 +95,9 @@ const FeedbackForm = () => {
                   type="button"
                   onClick={() => handleRating(star)}
                   className={`p-1 sm:p-2 text-base sm:text-lg ${
-                    formData.rating >= star ? "text-yellow-400" : "text-gray-400"
+                    formData.rating >= star
+                      ? "text-yellow-400"
+                      : "text-gray-400"
                   }`}
                 >
                   ★
@@ -124,8 +118,8 @@ const FeedbackForm = () => {
             ></textarea>
           </div>
 
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full bg-blue-500 hover:bg-blue-600 text-white p-2 rounded text-sm sm:text-base"
           >
             Submit
