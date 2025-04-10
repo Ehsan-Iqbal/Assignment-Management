@@ -37,13 +37,13 @@ function Sidebar() {
         { path: "/home", label: "Home", icon: <MdOutlineDashboard /> },
         { path: "/teacher-assignment", label: "Teacher Assignment", icon: <GiTeacher /> },
         { path: "/feedback", label: "Send Feedback", icon: <TbMessageCircleFilled /> },
+        { path: "/teacher-attendance", label: "Teacher Attendance", icon: <RiMessageFill /> }, // Correct path for Teacher Attendance
       ]
     : role === "student"
     ? [
         { path: "/attendance", label: "View Attendance", icon: <MdOutlinePreview /> },
         { path: "/result", label: "View Result", icon: <HiViewBoards /> },
         { path: "/leave", label: "Apply for Leave", icon: <RiMessageFill /> },
-        // { path: "/feedback", label: "Send Feedback", icon: <TbMessageCircleFilled /> },
         { path: "/student-assignment", label: "Student Assignment", icon: <PiStudentFill /> },
       ]
     : []; // If no role is set, show no nav items (for guests)

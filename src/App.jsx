@@ -10,6 +10,7 @@ import Leave from "./assets/pages/leave";
 import Feedback from "./assets/pages/feedback";
 import StudentAssignment from "./assets/pages/StudentAssignment";
 import TeacherAssignment from "./assets/pages/TeacherAssignment";
+import TeacherAtendance from "./assets/pages/TeacherAtendance"; 
 
 function App() {
   const userRole = localStorage.getItem("userRole");
@@ -29,6 +30,13 @@ function App() {
           path="teacher-assignment"
           element={
             userRole === "teacher" ? <TeacherAssignment /> : <Navigate to="/" />
+          }
+        />
+        {/* Add TeacherAtendance Route */}
+        <Route
+          path="teacher-attendance"
+          element={
+            userRole === "teacher" ? <TeacherAtendance /> : <Navigate to="/" />
           }
         />
       </Route>
