@@ -17,13 +17,13 @@ function Login() {
 
     // Check if it's a teacher or student based on the email
     if (email === teacherEmail && password === teacherPassword) {
-      localStorage.setItem("userRole", "teacher"); 
+      localStorage.setItem("userRole", "teacher");  // Set the user role
       alert("Teacher Login Successful!");
-      navigate("/home");  
+      navigate("/home");  // Redirect to Home for Teacher
     } else if (email === studentEmail && password === studentPassword) {
-      localStorage.setItem("userRole", "student"); 
+      localStorage.setItem("userRole", "student");  // Set the user role
       alert("Student Login Successful!");
-      navigate("/attendance"); 
+      navigate("/attendance");  // Redirect to View Attendance for Student
     } else {
       alert("Invalid Credentials");
     }
