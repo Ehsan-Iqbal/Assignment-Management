@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./assets/pages/signup";
 import Login from "./assets/pages/login";
 import Home from "./assets/pages/Home";
@@ -12,6 +12,8 @@ import StudentAssignment from "./assets/pages/StudentAssignment";
 import TeacherAssignment from "./assets/pages/TeacherAssignment";
 
 function App() {
+  const userRole = localStorage.getItem("userRole");
+
   return (
     <Routes>
       <Route path="/" element={<Signup />} />
@@ -23,7 +25,12 @@ function App() {
         <Route path="leave" element={<Leave />} />
         <Route path="feedback" element={<Feedback />} />
         <Route path="student-assignment" element={<StudentAssignment />} />
-        <Route path="teacher-assignment" element={<TeacherAssignment />} />
+        <Route
+          path="teacher-assignment"
+          element={
+            userRole === "teacher" ? <TeacherAssignment /> : <Navigate to="/" />
+          }
+        />
       </Route>
       <Route path="*" element={<Signup />} />
     </Routes>

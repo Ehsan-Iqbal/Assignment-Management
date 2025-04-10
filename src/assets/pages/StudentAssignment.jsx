@@ -37,16 +37,16 @@ const StudentAssignment = () => {
     const newAssignment = {
       studentName,
       file: selectedFile,
-      status: "Pending", 
+      status: "Pending",
       marks: null,
       feedback: "",
       comments,
-      submissionDate: new Date().toLocaleString(), 
+      submissionDate: new Date().toLocaleString(),
     };
 
     setAssignmentData(newAssignment);
     setSubmitted(true);
-    setSubmissionDate(newAssignment.submissionDate); 
+    setSubmissionDate(newAssignment.submissionDate);
     alert("Assignment submitted successfully!");
   };
 

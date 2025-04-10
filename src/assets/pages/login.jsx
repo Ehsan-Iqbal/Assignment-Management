@@ -8,12 +8,22 @@ function Login() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const storedEmail = localStorage.getItem("userEmail");
-    const storedPassword = localStorage.getItem("userPassword");
 
-    if (email === storedEmail && password === storedPassword) {
-      alert("Login Successful!");
-      navigate("/home");
+    // Example login credentials
+    const teacherEmail = "teacher1@gmail.com";
+    const teacherPassword = "1";
+    const studentEmail = "student1@gmail.com";
+    const studentPassword = "1";
+
+    // Check if it's a teacher or student based on the email
+    if (email === teacherEmail && password === teacherPassword) {
+      localStorage.setItem("userRole", "teacher"); 
+      alert("Teacher Login Successful!");
+      navigate("/home");  
+    } else if (email === studentEmail && password === studentPassword) {
+      localStorage.setItem("userRole", "student"); 
+      alert("Student Login Successful!");
+      navigate("/attendance"); 
     } else {
       alert("Invalid Credentials");
     }
@@ -22,9 +32,7 @@ function Login() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200">
       <div className="w-[400px] h-[450px] bg-white p-8 rounded-xl shadow-lg border border-gray-300 flex flex-col justify-center">
-        <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">
-          Login
-        </h2>
+        <h2 className="text-3xl font-bold text-center text-gray-700 mb-6">Login</h2>
         <form onSubmit={handleLogin} className="space-y-6">
           <input
             type="email"

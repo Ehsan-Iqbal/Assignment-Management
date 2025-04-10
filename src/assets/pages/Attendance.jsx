@@ -2,14 +2,70 @@ import React, { useState } from "react";
 
 function StudentAttendanceView() {
   const [attendance] = useState([
-    { id: 1, roll: "20BCS125", name: "Ehsan", date: "2024-04-08", subject: "CS2004", status: "Present" },
-    { id: 2, roll: "20BCS125", name: "Roman", date: "2024-04-09", subject: "CS2005", status: "Absent" },
-    { id: 3, roll: "20BCS125", name: "Ehsan", date: "2024-04-08", subject: "CS2004", status: "Present" },
-    { id: 4, roll: "20BCS125", name: "Roman", date: "2024-04-09", subject: "CS2005", status: "Absent" },
-    { id: 5, roll: "20BCS125", name: "Ehsan", date: "2024-04-08", subject: "CS2004", status: "Present" },
-    { id: 6, roll: "20BCS125", name: "Roman", date: "2024-04-09", subject: "CS2005", status: "Absent" },
-    { id: 7, roll: "20BCS125", name: "Ehsan", date: "2024-04-08", subject: "CS2004", status: "Present" },
-    { id: 8, roll: "20BCS125", name: "Roman", date: "2024-04-09", subject: "CS2005", status: "Absent" },
+    {
+      id: 1,
+      roll: "20BCS125",
+      name: "Ehsan",
+      date: "2024-04-08",
+      subject: "CS2004",
+      status: "Present",
+    },
+    {
+      id: 2,
+      roll: "20BCS125",
+      name: "Roman",
+      date: "2024-04-09",
+      subject: "CS2005",
+      status: "Absent",
+    },
+    {
+      id: 3,
+      roll: "20BCS125",
+      name: "Ehsan",
+      date: "2024-04-08",
+      subject: "CS2004",
+      status: "Present",
+    },
+    {
+      id: 4,
+      roll: "20BCS125",
+      name: "Roman",
+      date: "2024-04-09",
+      subject: "CS2005",
+      status: "Absent",
+    },
+    {
+      id: 5,
+      roll: "20BCS125",
+      name: "Ehsan",
+      date: "2024-04-08",
+      subject: "CS2004",
+      status: "Present",
+    },
+    {
+      id: 6,
+      roll: "20BCS125",
+      name: "Roman",
+      date: "2024-04-09",
+      subject: "CS2005",
+      status: "Absent",
+    },
+    {
+      id: 7,
+      roll: "20BCS125",
+      name: "Ehsan",
+      date: "2024-04-08",
+      subject: "CS2004",
+      status: "Present",
+    },
+    {
+      id: 8,
+      roll: "20BCS125",
+      name: "Roman",
+      date: "2024-04-09",
+      subject: "CS2005",
+      status: "Absent",
+    },
   ]);
 
   const studentRoll = "20BCS125";
@@ -50,7 +106,9 @@ function StudentAttendanceView() {
                   <td className="text-center p-3">{entry.subject}</td>
                   <td
                     className={`text-center p-3 font-semibold ${
-                      entry.status === "Present" ? "text-green-600" : "text-red-500"
+                      entry.status === "Present"
+                        ? "text-green-600"
+                        : "text-red-500"
                     }`}
                   >
                     {entry.status}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { MdOutlineDashboard, MdMenu, MdClose } from "react-icons/md";
 import { HiViewBoards } from "react-icons/hi";
 import { RiMessageFill } from "react-icons/ri";
@@ -6,7 +7,6 @@ import { MdOutlinePreview } from "react-icons/md";
 import { TbMessageCircleFilled } from "react-icons/tb";
 import { PiStudentFill } from "react-icons/pi";
 import { GiTeacher } from "react-icons/gi";
-import { useNavigate, useLocation } from "react-router-dom";
 
 function Sidebar() {
   const navigate = useNavigate();
@@ -18,13 +18,35 @@ function Sidebar() {
     setIsOpen(false); // Close sidebar after navigation on mobile
   };
 
+  // Handle Logout
   const handleLogout = () => {
     if (window.confirm("Do you really want to log out?")) {
       localStorage.removeItem("userEmail");
       localStorage.removeItem("userPassword");
-      navigate("/");
+      localStorage.removeItem("userRole");
+      navigate("/"); // Redirect to the login page
     }
   };
+
+  // Get user role from localStorage to adjust sidebar menu
+  const role = localStorage.getItem("userRole");
+
+  // Define sidebar items based on role
+  const navItems = role === "teacher"
+    ? [
+        { path: "/home", label: "Home", icon: <MdOutlineDashboard /> },
+        { path: "/teacher-assignment", label: "Teacher Assignment", icon: <GiTeacher /> },
+        { path: "/feedback", label: "Send Feedback", icon: <TbMessageCircleFilled /> },
+      ]
+    : role === "student"
+    ? [
+        { path: "/attendance", label: "View Attendance", icon: <MdOutlinePreview /> },
+        { path: "/result", label: "View Result", icon: <HiViewBoards /> },
+        { path: "/leave", label: "Apply for Leave", icon: <RiMessageFill /> },
+        // { path: "/feedback", label: "Send Feedback", icon: <TbMessageCircleFilled /> },
+        { path: "/student-assignment", label: "Student Assignment", icon: <PiStudentFill /> },
+      ]
+    : []; // If no role is set, show no nav items (for guests)
 
   return (
     <>
@@ -38,9 +60,7 @@ function Sidebar() {
 
       {/* 🔹 Sidebar */}
       <aside
-        className={`fixed top-0 left-0 w-56 bg-black h-screen flex flex-col justify-between z-50 transition-transform duration-300 md:translate-x-0 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } md:flex`}
+        className={`fixed top-0 left-0 w-56 bg-black h-screen flex flex-col justify-between z-50 transition-transform duration-300 md:translate-x-0 ${isOpen ? "translate-x-0" : "-translate-x-full"} md:flex`}
       >
         <div>
           {/* User Info */}
@@ -56,43 +76,11 @@ function Sidebar() {
 
           {/* Navigation Links */}
           <nav className="px-4 space-y-4">
-            {[
-              { path: "/home", label: "Home", icon: <MdOutlineDashboard /> },
-              {
-                path: "/attendance",
-                label: "View Attendance",
-                icon: <MdOutlinePreview />,
-              },
-              { path: "/result", label: "View Result", icon: <HiViewBoards /> },
-              {
-                path: "/leave",
-                label: "Apply for Leave",
-                icon: <RiMessageFill />,
-              },
-              {
-                path: "/feedback",
-                label: "Send Feedback",
-                icon: <TbMessageCircleFilled />,
-              },
-              {
-                path: "/teacher-assignment",
-                label: "Teacher Assignment",
-                icon: <GiTeacher />,
-              },
-              {
-                path: "/student-assignment",
-                label: "Student Assignment",
-                icon: <PiStudentFill />,
-              },
-            ].map((item) => (
+            {navItems.map((item) => (
               <a
                 key={item.path}
                 onClick={() => handleNavigation(item.path)}
-                className={`flex items-center text-sm gap-2 px-4 py-1.5 rounded-lg cursor-pointer ${
-                  location.pathname === item.path
-                    ? "bg-[#82c043]"
-                    : "bg-gray-700 hover:bg-gray-800"
-                }`}
+                className={`flex items-center text-sm gap-2 px-4 py-1.5 rounded-lg cursor-pointer ${location.pathname === item.path ? "bg-[#82c043]" : "bg-gray-700 hover:bg-gray-800"}`}
               >
                 <span className="text-white">{item.icon}</span>
                 <span className="text-white">{item.label}</span>

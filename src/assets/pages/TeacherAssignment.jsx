@@ -33,7 +33,7 @@ const TeacherAssignment = () => {
       setAssignments([...assignments, form]);
     }
 
-    setForm({ title: "", description: "", deadline: "", maxMarks: "" }); // Reset form
+    setForm({ title: "", description: "", deadline: "", maxMarks: "" });
   };
 
   const handleEdit = (index) => {
@@ -45,26 +45,11 @@ const TeacherAssignment = () => {
     setAssignments(assignments.filter((_, i) => i !== index));
   };
 
-  // const handleNewAssignment = () => {
-  //   setForm({ title: "", description: "", deadline: "", maxMarks: "" }); // Reset form for new assignment
-  //   setEditingIndex(null); // Reset editing state
-  // };
-
   return (
     <div className="max-w-3xl flex flex-col items-center justify-center p-6 bg-white shadow-md rounded-lg lg:ml-[30.66%]">
       <h2 className="text-2xl font-bold text-center mb-4">
         Assignment Management
       </h2>
-      
-      {/* New Assignment Button */}
-      {/* <button
-        className="w-full bg-green-500 text-white py-2 rounded hover:bg-green-600 transition cursor-pointer mb-6"
-        onClick={handleNewAssignment}
-      >
-        New Assignment
-      </button> */}
-
-      {/* Assignment Form */}
       <form onSubmit={handleSubmit} className="space-y-4 w-full">
         <input
           type="text"
