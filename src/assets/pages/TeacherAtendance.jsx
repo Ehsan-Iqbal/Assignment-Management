@@ -15,13 +15,10 @@ function TeacherAttendance() {
   const [attendanceData, setAttendanceData] = useState({});
   const [date, setDate] = useState("");
   const [subject, setSubject] = useState("");
-  const [editIndex, setEditIndex] = useState(null);
+  const [editMode, setEditMode] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem(
-      "attendanceRecords",
-      JSON.stringify(attendanceRecords)
-    );
+    localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
   }, [attendanceRecords]);
 
   const handleStatusChange = (rollNo, status) => {
@@ -30,18 +27,28 @@ function TeacherAttendance() {
 
   const openAddModal = () => {
     setShowModal(true);
-    setEditIndex(null);
+    setEditMode(false);
     setAttendanceData({});
     setDate("");
     setSubject("");
   };
 
-  const openEditModal = (record, index) => {
+  const openEditModal = (record) => {
     setShowModal(true);
-    setEditIndex(index);
+    setEditMode(true);
     setDate(record.date);
     setSubject(record.subject);
-    // setAttendanceData({ [record.rollNo]: record.status });
+
+    const sessionRecords = attendanceRecords.filter(
+      (r) => r.date === record.date && r.subject === record.subject
+    );
+
+    const updatedData = {};
+    sessionRecords.forEach((r) => {
+      updatedData[r.rollNo] = r.status;
+    });
+
+    setAttendanceData(updatedData);
   };
 
   const handleSubmit = () => {
@@ -50,39 +57,40 @@ function TeacherAttendance() {
       return;
     }
 
-    if (editIndex !== null) {
-      // Update existing
-      const updated = [...attendanceRecords];
-      updated[editIndex] = {
-        ...updated[editIndex],
-        date,
-        subject,
-        status: attendanceData[updated[editIndex].rollNo] || "Absent",
-      };
-      setAttendanceRecords(updated);
-    } else {
-      // Add new
-      const newRecords = studentList.map((student) => ({
-        name: student.name,
-        rollNo: student.rollNo,
-        date,
-        subject,
-        status: attendanceData[student.rollNo] || "Absent",
-      }));
-      setAttendanceRecords([...attendanceRecords, ...newRecords]);
-    }
+    // Remove existing session records if editing
+    const filteredRecords = attendanceRecords.filter(
+      (r) => !(r.date === date && r.subject === subject)
+    );
 
+    const newRecords = studentList.map((student) => ({
+      name: student.name,
+      rollNo: student.rollNo,
+      date,
+      subject,
+      status: attendanceData[student.rollNo] || "Absent",
+    }));
+
+    setAttendanceRecords([...filteredRecords, ...newRecords]);
+
+    // Reset modal
     setShowModal(false);
     setDate("");
     setSubject("");
     setAttendanceData({});
-    setEditIndex(null);
+    setEditMode(false);
   };
 
-  const handleDelete = (index) => {
-    const updated = [...attendanceRecords];
-    updated.splice(index, 1);
-    setAttendanceRecords(updated);
+  // ✅ FIXED: Only remove selected entry, not entire session
+  const handleDelete = (record) => {
+    const filteredRecords = attendanceRecords.filter(
+      (r) =>
+        !(
+          r.date === record.date &&
+          r.subject === record.subject &&
+          r.rollNo === record.rollNo
+        )
+    );
+    setAttendanceRecords(filteredRecords);
   };
 
   return (
@@ -109,7 +117,7 @@ function TeacherAttendance() {
       {/* Add Attendance Button */}
       <button
         onClick={openAddModal}
-        className="bg-blue-600 text-white px-4 py-2 rounded-md"
+        className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded-md"
       >
         Mark Attendance
       </button>
@@ -119,7 +127,7 @@ function TeacherAttendance() {
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white w-full max-w-2xl p-6 rounded-lg shadow-lg relative">
             <h3 className="text-xl font-bold mb-4">
-              {editIndex !== null ? "Edit" : "Mark"} Attendance
+              {editMode ? "Edit" : "Mark"} Attendance
             </h3>
 
             <div className="mb-4 flex gap-4">
@@ -140,10 +148,7 @@ function TeacherAttendance() {
 
             {/* Attendance Statuses */}
             <div className="max-h-60 overflow-y-auto">
-              {(editIndex !== null
-                ? [attendanceRecords[editIndex]]
-                : studentList
-              ).map((student) => (
+              {studentList.map((student) => (
                 <div
                   key={student.rollNo}
                   className="flex justify-between items-center mb-2"
@@ -152,7 +157,7 @@ function TeacherAttendance() {
                     {student.name} (Roll No: {student.rollNo})
                   </span>
                   <select
-                    value={attendanceData[student.rollNo] || "Present"}
+                    value={attendanceData[student.rollNo] || "Absent"}
                     onChange={(e) =>
                       handleStatusChange(student.rollNo, e.target.value)
                     }
@@ -175,9 +180,9 @@ function TeacherAttendance() {
               </button>
               <button
                 onClick={handleSubmit}
-                className="bg-green-600 text-white px-4 py-2 rounded"
+                className="bg-green-600 cursor-pointer text-white px-4 py-2 rounded"
               >
-                {editIndex !== null ? "Update" : "Submit"}
+                {editMode ? "Update" : "Submit"}
               </button>
             </div>
           </div>
@@ -209,14 +214,14 @@ function TeacherAttendance() {
                   <td className="border px-4 py-2">{entry.status}</td>
                   <td className="border px-4 py-2 space-x-2">
                     <button
-                      onClick={() => openEditModal(entry, index)}
-                      className="bg-yellow-500 text-white px-2 py-1 rounded"
+                      onClick={() => openEditModal(entry)}
+                      className="bg-yellow-500 cursor-pointer text-white px-2 py-1 rounded"
                     >
                       Edit
                     </button>
                     <button
-                      onClick={() => handleDelete(index)}
-                      className="bg-red-600 text-white px-2 py-1 rounded"
+                      onClick={() => handleDelete(entry)}
+                      className="bg-red-600 cursor-pointer text-white px-2 py-1 rounded"
                     >
                       Delete
                     </button>
